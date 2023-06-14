@@ -9,6 +9,7 @@ import pickle
 from keras.models import load_model
 from flask import Flask, request, jsonify
 import json
+import os
 
 
 # Preprocessing
@@ -29,10 +30,10 @@ loaded_model = load_model('Bidirectional LSTM English EMO.h5')
 #nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
 
 
-# [Routing untuk Halaman Utama atau Home]	
-@app.route("/")
-def beranda():
-    return render_template('index.html')
+# # [Routing untuk Halaman Utama atau Home]	
+# @app.route("/")
+# def beranda():
+#     return render_template('index.html')
 
 # [Routing untuk API]		
 @app.route("/api/deteksi",methods=['POST'])
