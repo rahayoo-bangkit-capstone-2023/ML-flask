@@ -2,6 +2,7 @@
 # Base libraries
 
 regex==2023.6.3
+pickle==0.7.5
 numpy==1.19.5
 pandas==1.3.0
 matplotlib==3.4.3
