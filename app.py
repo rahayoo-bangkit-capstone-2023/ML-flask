@@ -26,7 +26,7 @@ app   = Flask(__name__, static_url_path='/static')
 
 # Load the model
 #loaded_model = load_model('Bidirectional LSTM English EMO.h5')
-loaded_model = tensorflow.keras.models.load_model('Bidirectional LSTM English EMO.h5')
+loaded_model = tensorflow.keras.models.load_model('Bidirectional LSTM English EMO.h5', compile=False)
 # try to load stop words
 #nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
 
