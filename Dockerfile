@@ -1,46 +1,26 @@
-# # Use an official Python runtime as the base image
-# FROM python:3.9
-
-# # Set the working directory in the container
-# WORKDIR /app
-
-# # Upgrade pip
-# RUN pip install --no-cache-dir --upgrade pip
-
-# # Copy the requirements.txt file to the container
-# COPY requirements.txt .
-
-# # Install the Python dependencies
-# RUN pip install --no-cache-dir -r requirements.txt
-
-# # Copy the application code to the container
-# COPY . .
-
-# # Expose the port that the Flask app will run on
-# EXPOSE 8080
-
-# # Set the environment variable for Flask
-# ENV FLASK_APP=app.py
-
-# # Specify the command to run the Flask application
-# CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]
-
+# Use an official Python runtime as the base image
 FROM python:3.9
 
-ENV PORT 8080
-ENV HOST 0.0.0.0
-
-EXPOSE 8080
-
-RUN apt-get update -y && \
-    apt-get install -y python3-pip
-
-COPY ./requirements.txt /app/requirements.txt
-
+# Set the working directory in the container
 WORKDIR /app
 
-RUN pip install -r requirements.txt
+# Upgrade pip
+RUN pip install --no-cache-dir --upgrade pip
 
-COPY . /app
+# Copy the requirements.txt file to the container
+COPY requirements.txt .
 
-ENTRYPOINT ["python", "api.py"]
+# Install the Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the application code to the container
+COPY . .
+
+# Expose the port that the Flask app will run on
+EXPOSE 8080
+
+# Set the environment variable for Flask
+ENV FLASK_APP=app.py
+
+# Specify the command to run the Flask application
+CMD ["flask", "run"]
