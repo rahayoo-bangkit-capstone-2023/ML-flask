@@ -1,20 +1,23 @@
-# =[Modules dan Packages]========================
-
-from flask import Flask,render_template,request,jsonify
+# base library
 import re
-import nltk
+import string
 import numpy as np
 import pandas as pd
-from nltk.corpus import stopwords
+import matplotlib.pyplot as plt
+from flask import Flask
+import pickle
+from keras.models import load_model
+from flask import Flask, request, jsonify
+import json
+
+
+# Preprocessing
+import spacy
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
+from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-nltk.download("stopwords")
-nltk.download('wordnet')
-import pickle
-import os
-from tensorflow.keras.models import load_model
 
 # =[Variabel Global]=============================
 
@@ -22,7 +25,14 @@ app   = Flask(__name__, static_url_path='/static')
 
 # Load the model
 loaded_model = load_model('Bidirectional LSTM English EMO.h5')
+# try to load stop words
+#nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
 
+
+# [Routing untuk Halaman Utama atau Home]	
+@app.route("/")
+def beranda():
+    return render_template('index.html')
 
 # [Routing untuk API]		
 @app.route("/api/deteksi",methods=['POST'])
@@ -51,12 +61,23 @@ def apiDeteksi():
 			"data": result,
 		})
         
-stop_words=set(stopwords.words('english'))
+# stop_words=set(stopwords.words('english'))
+# def lemmatization(text):
+#     doc = nlp(text)
+#     return " ".join([token.lemma_ for token in doc])
+# stop_words=set(stopwords.words('english'))
+with open('stop_words.pkl', 'rb') as handle:
+     stop_words = pickle.load(handle)
+# def lemmatization(text):
+# 	doc = nlp(text)
+# 	return " ".join([token.lemma_ for token in doc])
+
 def preprocess(text):
     # Normalization
     sentence = re.sub('@\S+|https?:\S+|http?:\S|[^A-Za-z0-9]+', ' ', text)
     sentence = sentence.lower()
     sentence = sentence.split()
+    # sentence = lemmatization(sentence)
     sentence = [word for word in sentence if not word in stop_words]
     # Loading Tokenizer
     with open('tokenizer.pkl', 'rb') as handle:
@@ -65,9 +86,7 @@ def preprocess(text):
     sentence = loaded_tokenizer.texts_to_sequences([sentence])
     # Padding
     sentence = pad_sequences(sentence, maxlen=229, truncating='pre')
-
     return sentence
-
 
 # =[Main]========================================
 
