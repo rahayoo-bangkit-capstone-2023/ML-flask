@@ -1,8 +1,11 @@
 # Use an official Python runtime as the base image
-FROM python:3.9
+FROM python:3.9-slim-buster
 
 # Set the working directory in the container
 WORKDIR /app
+
+# Upgrade pip
+RUN pip install --no-cache-dir --upgrade pip
 
 # Copy the requirements.txt file to the container
 COPY requirements.txt .
