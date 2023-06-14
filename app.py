@@ -6,10 +6,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from flask import Flask
 import pickle
-from keras.models import load_model
+#from keras.models import load_model
 from flask import Flask, request, jsonify
 import json
 import os
+import tensorflow
 
 
 # Preprocessing
@@ -20,12 +21,12 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-# =[Variabel Global]=============================
-
+# =[Variabel Global]============================
 app   = Flask(__name__, static_url_path='/static')
 
 # Load the model
-loaded_model = load_model('Bidirectional LSTM English EMO.h5')
+#loaded_model = load_model('Bidirectional LSTM English EMO.h5')
+loaded_model = tensorflow.keras.models.load_model('Bidirectional LSTM English EMO.h5')
 # try to load stop words
 #nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
 
