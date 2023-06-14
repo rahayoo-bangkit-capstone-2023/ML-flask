@@ -1,6 +1,5 @@
 # File: requirements.txt
 # Base libraries
-regex==2.2.1
 numpy==1.19.5
 pandas==1.3.0
 matplotlib==3.4.3
